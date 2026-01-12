@@ -1,64 +1,61 @@
 import React, { useState, useEffect } from 'react';
-import { Target, Calendar, ShoppingBag, BookOpen, CheckCircle2 } from 'lucide-react';
+import { Target, Calendar, ShoppingBag, BookOpen, CheckCircle2, Check } from 'lucide-react';
+import Lottie from 'lottie-react';
+import firstWinAnimation from '../animations/firstWinAnimation.json';
 
 export const FirstWin: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const [progress, setProgress] = useState(0);
   
   const steps = [
     { 
         id: 1,
-        icon: <BookOpen className="w-6 h-6" />, 
+        icon: <BookOpen className="w-5 h-5" />, 
         title: "First course is live", 
         desc: "Launch your curriculum",
-        color: "bg-blue-100 text-blue-600",
+        color: "text-blue-600",
+        glow: "from-blue-500/20 to-blue-500/5",
+        badge: "Course Live! 🚀",
+        top: "26.6%"
     },
     { 
         id: 2,
-        icon: <Calendar className="w-6 h-6" />, 
+        icon: <Calendar className="w-5 h-5" />, 
         title: "First session goes live", 
         desc: "Bookings rolling in",
-        color: "bg-purple-100 text-purple-600",
+        color: "text-purple-600",
+        glow: "from-purple-500/20 to-purple-500/5",
+        badge: "Bookings Open! 📅",
+        top: "43.3%"
     },
     { 
         id: 3,
-        icon: <ShoppingBag className="w-6 h-6" />, 
+        icon: <ShoppingBag className="w-5 h-5" />, 
         title: "First product is listed", 
         desc: "Start selling digital goods",
-        color: "bg-pink-100 text-pink-600",
+        color: "text-pink-600",
+        glow: "from-pink-500/20 to-pink-500/5",
+        badge: "First Sale! 💸",
+        top: "60%"
     },
     { 
         id: 4,
-        icon: <Target className="w-6 h-6" />, 
+        icon: <Target className="w-5 h-5" />, 
         title: "First membership is running", 
         desc: "Recurring revenue starts",
-        color: "bg-orange-100 text-orange-600",
+        color: "text-orange-600",
+        glow: "from-orange-500/20 to-orange-500/5",
+        badge: "MRR Started! 📈",
+        top: "76.6%"
     }
   ];
 
   useEffect(() => {
-    const duration = 3000; // 3 seconds per step
-    const intervalTime = 50; // Update progress every 50ms
-    const stepsCount = duration / intervalTime;
-    let currentStep = 0;
+    // Sync React state with Lottie animation (12s total cycle = 3s per step)
+    const interval = setInterval(() => {
+      setActiveTab((prev) => (prev + 1) % steps.length);
+    }, 3000);
 
-    const timer = setInterval(() => {
-        // Reset progress and move to next tab
-        setProgress(0);
-        currentStep = 0;
-        setActiveTab((prev) => (prev + 1) % steps.length);
-    }, duration);
-
-    const progressTimer = setInterval(() => {
-        currentStep++;
-        const newProgress = Math.min((currentStep / stepsCount) * 100, 100);
-        setProgress(newProgress);
-    }, intervalTime);
-
-    return () => {
-        clearInterval(timer);
-        clearInterval(progressTimer);
-    };
+    return () => clearInterval(interval);
   }, [steps.length]);
 
   return (
@@ -66,99 +63,104 @@ export const FirstWin: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           
-          {/* Creative - Left side (The Fancy Animation) */}
-          <div className="relative order-2 lg:order-1 flex items-center justify-center">
-             {/* Main Container Frame representing the 'Hub' */}
-             <div className="relative w-full max-w-md bg-white rounded-3xl border-2 border-blue-50/50 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] p-6 md:p-8 overflow-hidden z-10 ring-1 ring-slate-900/5">
-                {/* Background decoration inside card */}
-                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-wylo-50 to-transparent rounded-bl-full opacity-60"></div>
+          {/* Creative - Left side (Ultra Fancy Card with Storytelling) */}
+          <div className="relative order-2 lg:order-1 flex items-center justify-center perspective-1000 group">
+             {/* 3D Tilt Container */}
+             <div className="relative w-full max-w-md aspect-square transform transition-transform duration-700 ease-out group-hover:rotate-y-6 group-hover:rotate-x-6 preserve-3d">
                 
-                <div className="space-y-4 relative">
-                    {steps.map((step, idx) => {
-                        const isActive = idx === activeTab;
-                        return (
-                            <div 
-                               key={step.id}
-                               className={`
-                                   relative flex items-center gap-4 p-4 rounded-2xl transition-all duration-500 ease-out border
-                                   ${isActive 
-                                     ? 'bg-white border-wylo-100 shadow-lg scale-100 opacity-100 translate-x-0 z-10' 
-                                     : 'bg-slate-50/50 border-transparent opacity-40 scale-95 hover:opacity-60 grayscale-[0.3]'
-                                   }
-                               `}
-                            >
-                                {/* Icon Box */}
-                                <div className={`
-                                    relative p-3 rounded-xl transition-all duration-300
-                                    ${isActive ? step.color : 'bg-slate-200 text-slate-400'}
-                                    ${isActive ? 'shadow-md' : ''}
-                                `}>
-                                    {step.icon}
-                                    
-                                    {/* Pulse Ring for Active */}
-                                    {isActive && (
-                                        <div className="absolute inset-0 rounded-xl bg-current opacity-20 animate-ping"></div>
-                                    )}
-                                </div>
+                {/* Adaptive Ambient Glow - Toned Down */}
+                <div className={`absolute -inset-4 bg-gradient-to-r rounded-[3rem] blur-2xl opacity-10 transition-colors duration-1000 ${steps[activeTab].glow}`}></div>
 
-                                {/* Text Content */}
-                                <div className="flex-1 min-w-0">
-                                    <h3 className={`font-bold text-lg truncate transition-colors duration-300 ${isActive ? 'text-slate-900' : 'text-slate-500'}`}>
-                                        {step.title}
-                                    </h3>
-                                    <div className={`overflow-hidden transition-all duration-500 ${isActive ? 'max-h-10 opacity-100 mt-0.5' : 'max-h-0 opacity-0'}`}>
-                                        <p className="text-sm text-slate-500">
+                {/* Main Card Container */}
+                <div className="absolute inset-0 bg-white/90 backdrop-blur-xl rounded-[2.5rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border border-white/50 overflow-hidden ring-1 ring-slate-900/5 transition-all duration-500">
+                    
+                    {/* Lottie Background Layer */}
+                    <div className="absolute inset-0 z-0 scale-105 opacity-50 mix-blend-multiply">
+                      <Lottie 
+                        animationData={firstWinAnimation} 
+                        loop={true}
+                        autoplay={true}
+                        speed={0.5} 
+                        style={{ width: '100%', height: '100%' }}
+                      />
+                    </div>
+                    
+                    {/* Text Content Overlay */}
+                    <div className="absolute inset-0 z-10 pointer-events-none">
+                        {steps.map((step, idx) => {
+                            const isActive = idx === activeTab;
+                            const isPast = idx < activeTab;
+                            
+                            return (
+                                <div 
+                                   key={step.id}
+                                   className={`
+                                     absolute left-[12%] right-[8%] h-[13%] flex items-center gap-4 px-4 
+                                     transition-all duration-500 ease-spring
+                                     ${isActive ? 'translate-x-2 scale-105' : 'translate-x-0 scale-100'}
+                                   `}
+                                   style={{ top: step.top, transform: `translateY(-50%) ${isActive ? 'translateX(8px) scale(1.05)' : ''}` }}
+                                >
+                                    {/* Icon with Glow/Checkmark */}
+                                    <div className={`
+                                        relative p-2.5 rounded-xl transition-all duration-500 flex items-center justify-center z-10
+                                        ${isActive 
+                                          ? 'bg-white shadow-[0_8px_16px_-4px_rgba(0,0,0,0.1)] ring-1 ring-white/60 scale-110 ' + step.color 
+                                          : isPast
+                                            ? 'bg-green-100 text-green-600 scale-90'
+                                            : 'bg-white/40 backdrop-blur-sm text-slate-300 border border-white/40 scale-95'}
+                                    `}>
+                                        {isPast ? <Check className="w-5 h-5" /> : step.icon}
+                                    </div>
+
+                                    {/* Text with Staggered Fade */}
+                                    <div className="flex-1 min-w-0">
+                                        <h3 className={`font-bold text-base transition-all duration-300 ${isActive ? 'text-slate-900 tracking-wide' : isPast ? 'text-slate-400' : 'text-slate-300'}`}>
+                                            {step.title}
+                                        </h3>
+                                        <p className={`text-xs transition-all duration-500 ${isActive ? 'text-slate-600 opacity-100 translate-y-0' : 'text-slate-400/0 opacity-0 -translate-y-1'}`}>
                                             {step.desc}
                                         </p>
                                     </div>
-                                </div>
-
-                                {/* Status Indicator */}
-                                <div className="flex flex-col items-end gap-1 pl-2">
-                                    {isActive ? (
-                                        <div className="flex items-center justify-center w-6 h-6">
-                                            <span className="relative flex h-3 w-3">
-                                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                                            </span>
-                                        </div>
-                                    ) : (
-                                        <div className="flex items-center justify-center w-6 h-6">
-                                            <div className="w-2 h-2 rounded-full bg-slate-300"></div>
-                                        </div>
+                                    
+                                    {/* Small Status Dot */}
+                                    {isActive && (
+                                        <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)] animate-pulse"></div>
                                     )}
                                 </div>
-                                
-                                {/* Progress Bar for Active Item */}
-                                {isActive && (
-                                    <div className="absolute bottom-0 left-6 right-6 h-[2px] bg-slate-100 overflow-hidden rounded-full mx-auto">
-                                        <div 
-                                            className="h-full bg-wylo-500 transition-all duration-75 ease-linear"
-                                            style={{ width: `${progress}%` }}
-                                        />
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
                 </div>
              </div>
 
-             {/* Background Blob behind the card */}
-             <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] bg-wylo-100/40 rounded-full blur-3xl animate-pulse"></div>
-             
-             {/* Floating Badge (Storytelling element) */}
-             <div className="absolute -right-4 -top-4 md:-right-8 md:top-10 animate-bounce duration-[3000ms] z-20">
-                 <div className="bg-white p-3 rounded-xl shadow-xl border border-slate-100 flex items-center gap-3 transform rotate-3">
-                     <div className="bg-green-100 p-1.5 rounded-lg text-green-600">
-                         <CheckCircle2 size={18} />
+             {/* Floating 3D Badge - Dynamic Storytelling */}
+             <div className="absolute -right-4 top-10 animate-bounce duration-[3000ms] z-30 transition-all duration-300 hover:scale-110">
+                 <div className="bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-[0_15px_30px_-5px_rgba(0,0,0,0.15)] border border-white/50 flex items-center gap-3 transform rotate-6 hover:rotate-0 transition-transform duration-300">
+                     <div className="bg-gradient-to-br from-green-100 to-emerald-100 p-2 rounded-xl text-green-600 shadow-inner">
+                         <CheckCircle2 size={20} />
                      </div>
                      <div>
-                        <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider leading-none mb-1">Status</p>
-                        <span className="text-sm font-bold text-slate-800 leading-none">Goal Hit!</span>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider leading-none mb-1.5">Status Update</p>
+                        <div className="h-6 w-32 overflow-hidden relative">
+                             {steps.map((step, idx) => (
+                                 <span 
+                                    key={step.id}
+                                    className={`
+                                        absolute top-0 left-0 text-sm font-bold text-slate-800 leading-none whitespace-nowrap transition-all duration-500
+                                        ${idx === activeTab ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+                                    `}
+                                 >
+                                    {step.badge}
+                                 </span>
+                             ))}
+                        </div>
                      </div>
                  </div>
              </div>
+
+             {/* Floating 3D Elements - Toned Down */}
+             <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-wylo-50/20 to-purple-50/20 rounded-full blur-3xl animate-[spin_15s_linear_infinite]"></div>
           </div>
 
           {/* Content - Right side */}
