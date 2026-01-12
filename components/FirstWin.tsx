@@ -134,21 +134,32 @@ export const FirstWin: React.FC = () => {
                 </div>
              </div>
 
-             {/* Floating 3D Badge - Dynamic Storytelling */}
-             <div className="absolute -right-4 top-10 animate-bounce duration-[3000ms] z-30 transition-all duration-300 hover:scale-110">
-                 <div className="bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-[0_15px_30px_-5px_rgba(0,0,0,0.15)] border border-white/50 flex items-center gap-3 transform rotate-6 hover:rotate-0 transition-transform duration-300">
-                     <div className="bg-gradient-to-br from-green-100 to-emerald-100 p-2 rounded-xl text-green-600 shadow-inner">
-                         <CheckCircle2 size={20} />
+             {/* Floating 3D Badge - Premium Design */}
+             <div className="absolute -right-8 top-8 animate-[float_4s_ease-in-out_infinite] z-30 hover:scale-105 transition-transform duration-300 perspective-500">
+                 <div className="bg-white/90 backdrop-blur-xl p-4 rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] border border-white/60 flex items-center gap-4 transform rotate-6 hover:rotate-0 transition-all duration-300 ring-1 ring-slate-900/5 group/badge">
+                     
+                     {/* Icon Container with Pulse */}
+                     <div className="relative">
+                         <div className="absolute inset-0 bg-green-400/20 rounded-full animate-ping opacity-75"></div>
+                         <div className="relative bg-gradient-to-br from-green-50 to-emerald-100 p-2.5 rounded-xl text-green-600 shadow-sm border border-green-100">
+                             <CheckCircle2 size={22} className="drop-shadow-sm" />
+                         </div>
                      </div>
-                     <div>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider leading-none mb-1.5">Status Update</p>
-                        <div className="h-6 w-32 overflow-hidden relative">
+
+                     <div className="flex flex-col gap-0.5">
+                        <div className="flex items-center gap-2">
+                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Status</span>
+                             <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)] animate-pulse"></span>
+                        </div>
+                        
+                        {/* Masked Text Scroller */}
+                        <div className="h-7 w-36 overflow-hidden relative mask-linear-fade">
                              {steps.map((step, idx) => (
                                  <span 
                                     key={step.id}
                                     className={`
-                                        absolute top-0 left-0 text-sm font-bold text-slate-800 leading-none whitespace-nowrap transition-all duration-500
-                                        ${idx === activeTab ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+                                        absolute top-0 left-0 text-base font-extrabold text-slate-800 leading-7 whitespace-nowrap transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]
+                                        ${idx === activeTab ? 'opacity-100 translate-y-0 scale-100 blur-0' : 'opacity-0 translate-y-8 scale-95 blur-sm'}
                                     `}
                                  >
                                     {step.badge}
